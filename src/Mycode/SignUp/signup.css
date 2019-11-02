@@ -1,0 +1,22 @@
+.signupForm{
+    width: 400px;
+    background-color: whitesmoke;
+    height: 320px;
+    border-radius: 5px;
+    margin: 0 auto;
+    padding: 30px;
+    text-align: center;
+}
+.logo{
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+    padding-top: 40px;
+}
+.signup{
+    padding-top: 10px;
+
+}
+.signupForm h2{
+    color: #b794f6;
+}

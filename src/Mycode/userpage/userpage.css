@@ -1,0 +1,70 @@
+.Userpage{
+    background-color: whitesmoke;
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+
+}
+
+.userBody{
+    width: 100%;
+    height: 87%;
+
+}
+.controlPanel{
+    width: 15%;
+    height: 100%;
+    border: 1px solid #4A148C;
+    background-color: #b794f6;
+    float: left;
+}
+.controlPanel .avatar{
+    width: 100%;
+    height:40%;
+    float: left;
+    background-color: black;
+}
+.controlPanel .content{
+    width: 100%;
+    height: 60%;
+    float: left;
+}
+.content .btn{
+    width: 100%;
+    height: 10%;
+    border: 1px solid #4A148C;
+    padding: 5px;
+    text-align: left;
+}
+.content .btn:hover{
+    background-color: blue;
+    color: whitesmoke;
+}
+
+
+.mainContent{
+    width: 82%;
+    height: 100%;
+    float: left;
+    padding: 100px;
+    box-sizing: border-box;
+    overflow: scroll;
+}
+
+.complogo{
+    width: 50%;
+    height: 100%;
+    float: left;
+}
+.userAvatar{
+    width: 50%;
+    height: 100%;
+    float: left;
+    text-align: right;
+}
+
+.userHeader{
+    width: 100%;
+    height: 85px;
+    background-color: #b794f6;
+}
