@@ -3,6 +3,7 @@ import './current.css';
 import axios from 'axios';
 import {} from 'react-router-dom';
 import {connect} from 'react-redux';
+import {storage} from '../../../firebase/firebase';
 
 
 
@@ -23,9 +24,6 @@ class CurrentContent extends React.Component{
 }
 
 
-
-
-
 class Personal extends React.Component{
     state = {
         Firstname:"",
@@ -35,6 +33,8 @@ class Personal extends React.Component{
         Sex:"M",
         Date_of_birth:"",
         m_status:"M",
+        image:null,
+        imageUrl:null
     }
 
     scanInput = e=>{
@@ -54,6 +54,8 @@ class Personal extends React.Component{
         })
     }
     registerOrUpdate=()=>{
+
+       
         const data = {
             firstname:this.state.Firstname,
             lastname:this.state.Lastname,
@@ -61,20 +63,37 @@ class Personal extends React.Component{
             age:this.state.Age,
             sex:this.state.Sex,
             status:this.state.m_status,
-            date_of_birth:this.state.Date_of_birth
+            date_of_birth:this.state.Date_of_birth,
+            avatarURL:this.state.imageUrl
         }
+        console.log(data)
         if(this.props.exists){
             (async()=>{
-                await axios.put("http://127.0.0.1:5000/personal",data,{
-                headers:{
-                    myToken:this.props.myToken
-                } 
+                await axios.put("http://127.0.0.1:5000/images",data,{
+                    headers:{
+                        myToken:this.props.myToken
+                    }
                 })
-                axios.get("http://127.0.0.1:5000/personal",{
+                await axios.put("http://127.0.0.1:5000/personal",data,{
+                    headers:{
+                        myToken:this.props.myToken
+                    } 
+                })
+                await axios.get("http://127.0.0.1:5000/personal",{
                     headers:{
                         myToken:this.props.myToken
                     } 
                 }).then(response=>console.log(response.data))
+
+                await axios.get("http://127.0.0.1:5000/images",{
+                    headers:{
+                        myToken:this.props.myToken
+                    }
+                })
+                .then(res=>{
+                    this.props.user_info(res.data)
+                })
+                
 
             })()
             
@@ -82,12 +101,27 @@ class Personal extends React.Component{
         else{
             (async ()=>{
                 console.log(data)
+                await axios.put("http://127.0.0.1:5000/images",data,{
+                    headers:{
+                        myToken:this.props.myToken
+                    }
+                })
 
                 await axios.post("http://127.0.0.1:5000/personal",data,{
                     headers:{
                         myToken:this.props.myToken
                     }
                 })
+
+                await axios.get("http://127.0.0.1:5000/images",{
+                    headers:{
+                        myToken:this.props.myToken
+                    }
+                })
+                .then(res=>{
+                    this.props.user_info(res.data)
+                })
+                
                 axios.get("http://127.0.0.1:5000/personal",{
                     headers:{
                         myToken:this.props.myToken
@@ -95,12 +129,50 @@ class Personal extends React.Component{
                 }).then(response=>{
                     this.props.updateUserInfo(response.data)
                 })
+
             })()
             
         }
 
-
     }
+    uploadImage=(e)=>{
+        (async ()=>{
+            const image = this.state.image
+
+            const uploadTask = storage.ref(`images/${e.target.files[0].name}`).put(e.target.files[0])
+            uploadTask.on('state_change',()=>{
+                // Shows our progress
+            },(error)=>{
+                // error function
+                console.log(error)
+            },()=>{
+                storage.ref('images').child(e.target.files[0].name).getDownloadURL().then(url=>{
+                    console.log(url)
+                    this.setState({
+                        imageUrl:url
+                    })
+                })
+            })
+        })()
+    }
+    uploadActual=()=>{
+        const {image} = this.state
+        
+
+        const uploadTask = storage.ref(`images/${image.name}`).put(image)
+        uploadTask.on('state_changed',(snapshot)=>{
+            // Shows our progress
+        },(error)=>{
+            // error function
+            console.log(error)
+        },()=>{
+            storage.ref('images').child(image.name).getDownloadURL.then(url=>{
+                console.log(url)
+            })
+
+        })
+    }
+
     render(){
         return (
             <div>
@@ -131,6 +203,10 @@ class Personal extends React.Component{
                                 <option value="S">Single</option>
                                 <option value="M">Married</option>
                             </select>
+                            <div className="ui fluid input">
+                                <button onClick={this.uploadImage}></button>
+                                <input type="File" placeholder="Age" name="Age" accept="image/*" onChange={this.uploadImage}/>    
+                            </div>
 
                             <div className="ui button" onClick={this.registerOrUpdate}>{this.props.exists? "Update":"Register"}</div>
                         </div>
@@ -146,6 +222,7 @@ const updatePerson =(update)=>({
     type:"UPDATE_PERSONAL_INFO",
     data:update
 })
+
 const mapStateToProps =(state)=>{
     return{
         exists:state.personalInfo.exists,
@@ -153,9 +230,17 @@ const mapStateToProps =(state)=>{
     }
 }
 
+const updateAvatar=data=>{
+    return {
+        type:"UPDATE_AVATAR_URL",
+        data: data
+    }
+}
+
 const mapDispatchToProp=(dispatch)=>{
     return {
-        updateUserInfo: (personal)=>dispatch(updatePerson(personal))
+        updateUserInfo: (personal)=>dispatch(updatePerson(personal)),
+        user_info: (info)=>dispatch(updateAvatar(info))
     }
 }
 export default connect(mapStateToProps,mapDispatchToProp)(Personal);

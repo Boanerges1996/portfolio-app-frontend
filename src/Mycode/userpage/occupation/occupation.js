@@ -93,7 +93,7 @@ class Occupation extends React.Component{
 const occupation = data=>{
     return{
         type:"OCCUPATION_INFO",
-        data:data
+        occupation:data
     }
 }
 

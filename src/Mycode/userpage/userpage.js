@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import CurrentContent from './personal/person';
 import Occupation from './occupation/occupation';
 import Contact from './contact/address';
+import CurrentInfomation from './current/current';
 
 class Userpage extends React.Component{
     state = {
@@ -21,7 +22,7 @@ class Userpage extends React.Component{
         PersonalInfo:false,
         Occupation:false,
         Contact:false,
-
+        CurrentInfo:true
     }
     changeCurrentColor =()=>{
         this.setState({
@@ -37,7 +38,8 @@ class Userpage extends React.Component{
             },
             PersonalInfo:false,
             Occupation:false,
-            Contact:false
+            Contact:false,
+            CurrentInfo:true
         })
     }
     changePersonColor =()=>{
@@ -54,7 +56,8 @@ class Userpage extends React.Component{
             },
             PersonalInfo:true,
             Occupation:false,
-            Contact:false
+            Contact:false,
+            CurrentInfo:false
         })
     }
     changeOccupationColor =()=>{
@@ -71,7 +74,8 @@ class Userpage extends React.Component{
             },
             PersonalInfo:false,
             Occupation:true,
-            Contact:false
+            Contact:false,
+            CurrentInfo:false
         })
     }
     changeContactColor =()=>{
@@ -88,7 +92,8 @@ class Userpage extends React.Component{
             },
             PersonalInfo:false,
             Occupation:false,
-            Contact:true
+            Contact:true,
+            CurrentInfo:false
         })
     }
 
@@ -128,7 +133,7 @@ class Userpage extends React.Component{
                         {this.state.PersonalInfo?<CurrentContent />:<div></div>}
                         {this.state.Occupation?<Occupation />:<div />}
                         {this.state.Contact?<Contact/>:<div />}
-
+                        {this.state.CurrentInfo?<CurrentInfomation />:<div />}
                     </div>
 
                 </div>

@@ -46,7 +46,9 @@
     width: 82%;
     height: 100%;
     float: left;
-    padding: 100px;
+    padding-top: 100px;
+    padding-left: 100px;
+    padding-right: 100px;
     box-sizing: border-box;
     overflow: scroll;
 }

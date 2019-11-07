@@ -3,6 +3,7 @@ const PERSONAL_INFO = "PERSONAL_INFO"
 const UPDATE_PERSONAL_INFO= "UPDATE_PERSONAL_INFO"
 const OCCUPATION_INFO = "OCCUPATION_INFO"
 const CONTACT_INFO = "CONTACT_INFO"
+const UPDATE_AVATAR_URL = "UPDATE_AVATAR_URL"
 
 const initialStore = {
     user_info:{
@@ -53,7 +54,8 @@ const rootRuducer = (state = initialStore,action)=>{
         return {
             ...state,
             occupation:{
-                ...action.data
+                ...state.occupation,
+                ...action.occupation
             }
         }
     }
@@ -62,6 +64,15 @@ const rootRuducer = (state = initialStore,action)=>{
             ...state,
             contact:{
                 ...action.contacts
+            }
+        }
+    }
+    else if(action.type===UPDATE_AVATAR_URL){
+        return {
+            ...state,
+            user_info:{
+                ...state.user_info,
+                ...action.data
             }
         }
     }
