@@ -136,41 +136,25 @@ class Personal extends React.Component{
 
     }
     uploadImage=(e)=>{
-        (async ()=>{
-            const image = this.state.image
-
-            const uploadTask = storage.ref(`images/${e.target.files[0].name}`).put(e.target.files[0])
-            uploadTask.on('state_change',()=>{
+        const file = e.target.files[0]
+            const uploadTask = storage.ref(`images/${file.name}`).put(file)
+            uploadTask.on('state_changed',(snapshot)=>{
                 // Shows our progress
             },(error)=>{
                 // error function
                 console.log(error)
-            },()=>{
-                storage.ref('images').child(e.target.files[0].name).getDownloadURL().then(url=>{
+            },
+            ()=>{
+                storage.ref('images').child(file.name).getDownloadURL().then(url=>{
                     console.log(url)
+                    this.props.url(url)
                     this.setState({
                         imageUrl:url
+                    },()=>{
+                        console.log("URL is"+this.state.imageUrl)
                     })
                 })
             })
-        })()
-    }
-    uploadActual=()=>{
-        const {image} = this.state
-        
-
-        const uploadTask = storage.ref(`images/${image.name}`).put(image)
-        uploadTask.on('state_changed',(snapshot)=>{
-            // Shows our progress
-        },(error)=>{
-            // error function
-            console.log(error)
-        },()=>{
-            storage.ref('images').child(image.name).getDownloadURL.then(url=>{
-                console.log(url)
-            })
-
-        })
     }
 
     render(){
@@ -203,8 +187,7 @@ class Personal extends React.Component{
                                 <option value="S">Single</option>
                                 <option value="M">Married</option>
                             </select>
-                            <div className="ui fluid input">
-                                <button onClick={this.uploadImage}></button>
+                            <div className="ui fluid input">    
                                 <input type="File" placeholder="Age" name="Age" accept="image/*" onChange={this.uploadImage}/>    
                             </div>
 
@@ -236,11 +219,18 @@ const updateAvatar=data=>{
         data: data
     }
 }
+const URL=data=>{
+    return {
+        type:"URL",
+        data:data
+    }
+}
 
 const mapDispatchToProp=(dispatch)=>{
     return {
         updateUserInfo: (personal)=>dispatch(updatePerson(personal)),
-        user_info: (info)=>dispatch(updateAvatar(info))
+        user_info: (info)=>dispatch(updateAvatar(info)),
+        url: (data)=>dispatch(URL(data))
     }
 }
 export default connect(mapStateToProps,mapDispatchToProp)(Personal);

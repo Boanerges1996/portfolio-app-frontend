@@ -11,6 +11,7 @@ const initialStore = {
         "username":"Boanerges",
         "user_avatar":""
     },
+    url:"",
     isAuthenticated:false,
     personalInfo:{
         exists:false
@@ -74,6 +75,12 @@ const rootRuducer = (state = initialStore,action)=>{
                 ...state.user_info,
                 ...action.data
             }
+        }
+    }
+    else if(action.type==="URL"){
+        return {
+            ...state,
+            url:action.data
         }
     }
     return state
