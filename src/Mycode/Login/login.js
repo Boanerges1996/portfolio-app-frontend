@@ -17,7 +17,7 @@ class Login extends React.Component{
     }
 
     Login_right = ()=>{
-        axios.post("http://127.0.0.1:5000/sign_in",{
+        axios.post("https://dorthear.herokuapp.com/sign_in",{
             username:this.state.username,
             password:this.state.password
         }).then(response =>{
@@ -45,7 +45,7 @@ class Login extends React.Component{
 
     render(){
         if(this.state.userinfo.login){
-            axios.get("http://127.0.0.1:5000/personal",{
+            axios.get("https://dorthear.herokuapp.com/personal",{
                 headers:{
                     myToken:this.state.userinfo.token
                 }
@@ -53,7 +53,7 @@ class Login extends React.Component{
                 this.props.personalInfo(response.data)
             })
 
-            axios.get("http://127.0.0.1:5000/occupation",{
+            axios.get("https://dorthear.herokuapp.com/occupation",{
                 headers:{
                     myToken:this.state.userinfo.token
                 }
@@ -61,7 +61,7 @@ class Login extends React.Component{
                 this.props.occupation(response.data)
             })
 
-            axios.get("http://127.0.0.1:5000/address",{
+            axios.get("https://dorthear.herokuapp.com/address",{
                 headers:{
                     myToken:this.state.userinfo.token
                 }

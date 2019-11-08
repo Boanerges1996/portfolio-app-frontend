@@ -20,3 +20,9 @@
 .signupForm h2{
     color: #b794f6;
 }
+
+.logout{
+    position: absolute;
+    top: 85px;
+    right: 0px;;
+}

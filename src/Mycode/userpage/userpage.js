@@ -6,6 +6,7 @@ import CurrentContent from './personal/person';
 import Occupation from './occupation/occupation';
 import Contact from './contact/address';
 import CurrentInfomation from './current/current';
+import {Redirect} from 'react-router-dom';
 
 class Userpage extends React.Component{
     state = {
@@ -17,12 +18,15 @@ class Userpage extends React.Component{
             bgColorOccupation:"#b794f6",
             colorOccupation:"black",
             bgColorContact:"#b794f6",
-            colorContact:"black"
+            colorContact:"black",
+            bgColorLogout:"#b794f6",
+            colorLogout:"black"
         },
         PersonalInfo:false,
         Occupation:false,
         Contact:false,
-        CurrentInfo:true
+        CurrentInfo:true,
+        logout:false
     }
     changeCurrentColor =()=>{
         this.setState({
@@ -34,7 +38,9 @@ class Userpage extends React.Component{
                 bgColorOccupation:"#b794f6",
                 colorOccupation:"black",
                 bgColorContact:"#b794f6",
-                colorContact:"black"               
+                colorContact:"black",
+                bgColorLogout:"#b794f6",
+                colorLogout:"black"               
             },
             PersonalInfo:false,
             Occupation:false,
@@ -52,7 +58,9 @@ class Userpage extends React.Component{
                 bgColorOccupation:"#b794f6",
                 colorOccupation:"black",
                 bgColorContact:"#b794f6",
-                colorContact:"black"
+                colorContact:"black",
+                bgColorLogout:"#b794f6",
+                colorLogout:"black"
             },
             PersonalInfo:true,
             Occupation:false,
@@ -70,7 +78,9 @@ class Userpage extends React.Component{
                 bgColorOccupation:"blue",
                 colorOccupation:"white",
                 bgColorContact:"#b794f6",
-                colorContact:"black"
+                colorContact:"black",
+                bgColorLogout:"#b794f6",
+                colorLogout:"black"
             },
             PersonalInfo:false,
             Occupation:true,
@@ -88,7 +98,9 @@ class Userpage extends React.Component{
                 bgColorOccupation:"#b794f6",
                 colorOccupation:"black",
                 bgColorContact:"blue",
-                colorContact:"white"
+                colorContact:"white",
+                bgColorLogout:"#b794f6",
+                colorLogout:"black"
             },
             PersonalInfo:false,
             Occupation:false,
@@ -96,11 +108,37 @@ class Userpage extends React.Component{
             CurrentInfo:false
         })
     }
+    logout =()=>{
+            this.setState({
+                buttonStyles:{
+                    bgColorCurrent:"#b794f6",
+                    colorCurrent:"black",
+                    bgColorPerson:"#b794f6",
+                    colorPerson:"black",
+                    bgColorOccupation:"#b794f6",
+                    colorOccupation:"black",
+                    bgColorContact:"#b794f6",
+                    colorContact:"black",
+                    bgColorLogout:"blue",
+                    colorLogout:"white"
+                },
+                PersonalInfo:false,
+                Occupation:false,
+                Contact:false,
+                CurrentInfo:true,
+                logout:true
+            })
+            this.props.logout("logout") 
+
+    }
 
 
     render(){
         const avatarStyles = {
             textAlign:'right'
+        }
+        if(this.state.logout){
+           return <Redirect to='/Login' />
         }
 
         return (
@@ -127,6 +165,8 @@ class Userpage extends React.Component{
                             <div className="btn" style={{backgroundColor:this.state.buttonStyles.bgColorPerson,color:this.state.buttonStyles.colorPerson}} onClick={this.changePersonColor}><i className="user large icon"></i>Personal Info</div>
                             <div className="btn" style={{backgroundColor:this.state.buttonStyles.bgColorOccupation,color:this.state.buttonStyles.colorOccupation}} onClick={this.changeOccupationColor}><i className="shipping fast large icon"></i>Occupation</div>
                             <div className="btn" style={{backgroundColor:this.state.buttonStyles.bgColorContact,color:this.state.buttonStyles.colorContact}} onClick={this.changeContactColor}><i className="phone large icon"></i>Contact</div>
+                            <div className="btn" style={{backgroundColor:this.state.buttonStyles.bgColorLogout,color:this.state.buttonStyles.colorLogout}} onClick={this.logout}><i className="sign out alternate icon"></i>Logout</div>
+
                         </div>
                     </div>
                     <div className="mainContent">
@@ -145,6 +185,13 @@ class Userpage extends React.Component{
 
 
 //This component assessing the library
+const LOGOUT=(data)=>{
+    return {
+        type:"LOGOUT",
+        data:data
+    }
+}
+
 
 const mapStateToProps=(state)=>{
     return {
@@ -152,5 +199,10 @@ const mapStateToProps=(state)=>{
         user_avatar: state.user_info.user_avatar
     }
 }
+const mapDispatchToProps=dispatch=>{
+    return{
+        logout: (data)=>dispatch(LOGOUT(data))
+    }
+}
 
-export default connect(mapStateToProps)(Userpage);
+export default connect(mapStateToProps,mapDispatchToProps)(Userpage);

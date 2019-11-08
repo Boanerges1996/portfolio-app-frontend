@@ -39,6 +39,7 @@ const rootRuducer = (state = initialStore,action)=>{
         return{
             ...state,
             personalInfo:{
+                ...state.personalInfo,
                 ...action.person
             }
         }
@@ -47,6 +48,7 @@ const rootRuducer = (state = initialStore,action)=>{
         return {
             ...state,
             personalInfo:{
+                ...state.personalInfo,
                 ...action.data
             }
         }
@@ -68,19 +70,33 @@ const rootRuducer = (state = initialStore,action)=>{
             }
         }
     }
-    else if(action.type===UPDATE_AVATAR_URL){
+    else if(action.type==="URL"){
         return {
             ...state,
             user_info:{
                 ...state.user_info,
-                ...action.data
+                user_avatar:action.data
             }
         }
     }
-    else if(action.type==="URL"){
+    else if(action.type==="LOGOUT"){
         return {
-            ...state,
-            url:action.data
+            user_info:{
+                "id":"1",
+                "username":"Boanerges",
+                "user_avatar":""
+            },
+            url:"",
+            isAuthenticated:false,
+            personalInfo:{
+                exists:false
+            },
+            occupation:{
+                exists:false
+            },
+            contact:{
+                exists:false
+            }
         }
     }
     return state

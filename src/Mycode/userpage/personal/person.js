@@ -64,28 +64,30 @@ class Personal extends React.Component{
             sex:this.state.Sex,
             status:this.state.m_status,
             date_of_birth:this.state.Date_of_birth,
-            avatarURL:this.state.imageUrl
+        }
+        const url={
+            URL:this.props.avatarURL
         }
         console.log(data)
         if(this.props.exists){
             (async()=>{
-                await axios.put("http://127.0.0.1:5000/images",data,{
+                await axios.put("https://dorthear.herokuapp.com/images",url,{
                     headers:{
                         myToken:this.props.myToken
                     }
                 })
-                await axios.put("http://127.0.0.1:5000/personal",data,{
+                await axios.put("https://dorthear.herokuapp.com/personal",data,{
                     headers:{
                         myToken:this.props.myToken
                     } 
                 })
-                await axios.get("http://127.0.0.1:5000/personal",{
+                await axios.get("https://dorthear.herokuapp.com/personal",{
                     headers:{
                         myToken:this.props.myToken
                     } 
                 }).then(response=>console.log(response.data))
 
-                await axios.get("http://127.0.0.1:5000/images",{
+                await axios.get("https://dorthear.herokuapp.com/images",{
                     headers:{
                         myToken:this.props.myToken
                     }
@@ -101,19 +103,19 @@ class Personal extends React.Component{
         else{
             (async ()=>{
                 console.log(data)
-                await axios.put("http://127.0.0.1:5000/images",data,{
+                await axios.put("https://dorthear.herokuapp.com/images",data,{
                     headers:{
                         myToken:this.props.myToken
                     }
                 })
 
-                await axios.post("http://127.0.0.1:5000/personal",data,{
+                await axios.post("https://dorthear.herokuapp.com/personal",data,{
                     headers:{
                         myToken:this.props.myToken
                     }
                 })
 
-                await axios.get("http://127.0.0.1:5000/images",{
+                await axios.get("https://dorthear.herokuapp.com/images",{
                     headers:{
                         myToken:this.props.myToken
                     }
@@ -122,7 +124,7 @@ class Personal extends React.Component{
                     this.props.user_info(res.data)
                 })
                 
-                axios.get("http://127.0.0.1:5000/personal",{
+                axios.get("https://dorthear.herokuapp.com/personal",{
                     headers:{
                         myToken:this.props.myToken
                     } 
@@ -148,11 +150,6 @@ class Personal extends React.Component{
                 storage.ref('images').child(file.name).getDownloadURL().then(url=>{
                     console.log(url)
                     this.props.url(url)
-                    this.setState({
-                        imageUrl:url
-                    },()=>{
-                        console.log("URL is"+this.state.imageUrl)
-                    })
                 })
             })
     }
@@ -209,7 +206,8 @@ const updatePerson =(update)=>({
 const mapStateToProps =(state)=>{
     return{
         exists:state.personalInfo.exists,
-        myToken:state.user_info.token
+        myToken:state.user_info.token,
+        avatarURL: state.user_info.user_avatar
     }
 }
 

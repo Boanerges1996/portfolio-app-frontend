@@ -41,7 +41,7 @@ class Signup extends React.Component{
         
     }
     signUp =()=>{
-        axios.post("http://127.0.0.1:5000/user_registration",{
+        axios.post("https://dorthear.herokuapp.com/user_registration",{
             username:this.state.username,
             email:this.state.email,
             password:this.state.password

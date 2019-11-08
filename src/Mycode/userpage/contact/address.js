@@ -27,12 +27,12 @@ class Contact extends React.Component{
         if(this.props.exists){
             //This updates
             (async()=>{
-                await Axios.put("http://127.0.0.1:5000/address",data,{
+                await Axios.put("https://dorthear.herokuapp.com/address",data,{
                     headers:{
                         myToken: this.props.mytoken
                     }
                 })
-                Axios.get("http://127.0.0.1:5000/address",{
+                Axios.get("https://dorthear.herokuapp.com/address",{
                     headers:{
                         myToken: this.props.mytoken
                     }
@@ -44,12 +44,12 @@ class Contact extends React.Component{
         else{
             (async ()=>{
                 console.log(this.props.mytoken)
-                let res = await Axios.post("http://127.0.0.1:5000/address",data,{
+                let res = await Axios.post("https://dorthear.herokuapp.com/address",data,{
                     headers:{
                         myToken: this.props.mytoken
                     }
                 })
-                Axios.get("http://127.0.0.1:5000/address",{
+                Axios.get("https://dorthear.herokuapp.com/address",{
                     headers:{
                         myToken:this.props.mytoken 
                     }

@@ -28,12 +28,12 @@ class Occupation extends React.Component{
         console.log(data)
         if(this.props.exists){
             (async()=>{
-                await Axios.put("http://127.0.0.1:5000/occupation",data,{
+                await Axios.put("https://dorthear.herokuapp.com/occupation",data,{
                     headers:{
                         myToken:this.props.myToken
                     }
                 })
-                Axios.get("http://127.0.0.1:5000/occupation",{
+                Axios.get("https://dorthear.herokuapp.com/occupation",{
                     headers:{
                         myToken:this.props.myToken
                     } 
@@ -44,12 +44,12 @@ class Occupation extends React.Component{
         }
         else{
             (async()=>{
-                await Axios.post("http://127.0.0.1:5000/occupation",data,{
+                await Axios.post("https://dorthear.herokuapp.com/occupation",data,{
                     headers:{
                         myToken:this.props.myToken
                     }
                 })
-                Axios.get("http://127.0.0.1:5000/occupation",{
+                Axios.get("https://dorthear.herokuapp.com/occupation",{
                     headers:{
                         myToken:this.props.myToken   
                     }
