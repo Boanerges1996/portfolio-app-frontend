@@ -48,12 +48,13 @@ class Signup extends React.Component{
         }).then(response=>{
             this.props.user_info(response.data)
         })
+
     }
 
 
 
     render(){
-        if(this.state.user_info.login){
+        if(this.props.login){
             return <Redirect to="/Userpage" />
         }
         return(
@@ -115,10 +116,16 @@ const user_information =(user)=>{
     }
 }
 
+const mapStateToProps=(state)=>{
+    return {
+        login: state.user_info.login
+    }
+}
+
 const mapDispatchtoProps = (dispatch) =>{
     return{
         user_info: (user)=> dispatch(user_information(user))
     }
 }
 
-export default connect(null,mapDispatchtoProps)(Signup);
+export default connect(mapStateToProps,mapDispatchtoProps)(Signup);
